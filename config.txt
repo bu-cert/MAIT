@@ -7,23 +7,23 @@ password = <SDK Token Here>
 BASEDIR = http://localhost:8090/
 
 [AbuseCh]
-APIKEY = cb6a7a3ea5aa01cba348
+APIKEY = 
 URL = https://urlhaus-api.abuse.ch/v1/
 
 [MalwareBazaar]
-APIKEY = 9108bb27f2d951550160141695249195
+APIKEY = 
 URL = https://mb-api.abuse.ch/api/v1
 
 [VirusTotal]
 VIRUSTOTALURL = http://www.virustotal.com/vtapi/v2/
-VIRUSTOTALKEY = 29b1d29751147fcd48fba10152a1680cc6d8b835f6bcfc06d1d3d9d5ad3602bc
+VIRUSTOTALKEY = 
 
 [AlienVault]
-API_KEY = b1adc4d72ca6831d3d960151ea3949dc378494ae70e744851db073220dea9b21
+API_KEY = 
 OTX_SERVER = https://otx.alienvault.com/
 
 [FarsightSecurity]
-API_KEY = dce-3ee883cf9e84f544ea72112fbdefa120652daf2308724ec560f5eef7828a
+API_KEY = 
 DNSDB_URL = https://api.dnsdb.info/dnsdb/v2/
 
 [Ip2proxy]
@@ -31,11 +31,11 @@ API_KEY = demo
 URL = http://api.ip2proxy.com/
 
 [ThreatIntelligencePlatform]
-API_KEY = at_aIXYVCzs7BbGuOjz2XECVYGaQl98l
+API_KEY = 
 URL = https://api.threatintelligenceplatform.com/v1/
 
 [SecurityTrails]
-API_KEY = FwnXvZhOLG0PcfC4tHJ1rFzIWcaKznt1
+API_KEY = 
 URL = https://api.securitytrails.com/v1/
 
 [GreyNoise]
