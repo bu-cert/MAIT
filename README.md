@@ -1,5 +1,7 @@
 # MAIT: Malware Analysis and Intelligence Toolkit
 
+**This work has received funding from the European Union’s Horizon 2020 research and innovation program under the grant agreement no 830943 (ECHO).**
+
 An automated and behaviour-based malware analysis toolkit that identifies potential malicious executables files (.exe, .dll) and collect Cyber Threat Intelligence for the file by using online resources.  
 
 By utilising a BU-CERT instance of open source state-of-the-art malware static and dynamic analysers (such as cuckoo sandbox) and with the use of open source malware databases, this tool aims to provide a malware signature along with an intelligence report collected from public sources.  
