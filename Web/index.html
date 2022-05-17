@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="Responsive Admin &amp; Dashboard Template based on Bootstrap 5">
+	<meta name="author" content="MAIT">
+	<meta name="keywords" content="malware analysis tool, static analysis, dynamic analysis,cti collection">
+
+	<link rel="shortcut icon" href="img/icons/icon-48x48.png" />
+
+	<title>Home page | MAIT Demo</title>
+
+	<link href="css/app.css" rel="stylesheet">
+</head>
+
+<body>
+	<div class="wrapper">
+		<nav id="sidebar" class="sidebar">
+			<div class="sidebar-content js-simplebar">
+				<a class="sidebar-brand" href="mait-indexindex.html">
+					<span class="align-middle">MAIT</span>
+				</a>
+
+				<ul class="sidebar-nav">
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="submit-a-file.html">
+							<i class="align-middle"></i> <span class="align-middle">Submit a file</span>
+						</a>
+					</li>
+					<li class="sidebar-header">
+						Functions
+					</li>
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="static-analysis.html">
+							<i class="align-middle"></i> <span class="align-middle">Static Analysis</span>
+						</a>
+					</li>
+
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="dynamic-analysis.html">
+							<i class="align-middle"></i> <span class="align-middle">Dynamic Analysis</span>
+						</a>
+					</li>
+
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="cti-collection.html">
+							<i class="align-middle"></i> <span class="align-middle">CTI Collection</span>
+						</a>
+					</li>
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="attack-navigation.html">
+							<i class="align-middle"></i> <span class="align-middle">ATT&CK Navigation</span>
+						</a>
+					</li>
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="url-intelligence.html">
+							<i class="align-middle"></i> <span class="align-middle">URL Intelligence</span>
+						</a>
+					</li>
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="ip-intelligence.html">
+							<i class="align-middle"></i> <span class="align-middle">IP Intelligence</span>
+						</a>
+					</li>
+					<li class="sidebar-header">
+						Actions
+					</li>
+
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="submit-to-ews.html">
+							<i class="align-middle"></i> <span class="align-middle">Submit to EWS</span>
+						</a>
+					</li>
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="quarantine.html">
+							<i class="align-middle"></i> <span class="align-middle">Quarantine</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+
+		<div class="main">
+			<nav class="navbar navbar-expand navbar-light navbar-bg">
+				<a class="sidebar-toggle d-flex">
+					<i class="hamburger align-self-center"></i>
+				</a>
+
+				<form class="d-none d-sm-inline-block">
+					<div class="input-group input-group-navbar">
+						<input type="text" class="form-control" placeholder="Search…" aria-label="Search">
+						<button class="btn" type="button">
+							<i class="align-middle" data-feather="search"></i>
+						</button>
+					</div>
+				</form>
+
+				<div class="navbar-collapse collapse">
+					<ul class="navbar-nav navbar-align">
+					</ul>
+				</div>
+			</nav>
+
+			<main class="content">
+				<div class="container-fluid p-0">
+
+					<div class="row mb-2 mb-xl-3">
+						<div class="col-auto d-none d-sm-block">
+							<h3><strong>MAIT</strong> </h3>
+						</div>
+							<div class="row">
+								<div class="col-12 col-xl-12">
+									<div class="accordion" id="accordionExample">
+										<div class="card">
+											<div class="card-header" id="headingOne">
+												<h5 class="card-title my-2">
+													<a href="#" data-toggle="collapse" data-target="#collapseOne"
+														aria-expanded="true" aria-controls="collapseOne">
+														Concept
+													</a>
+												</h5>
+											</div>
+											<div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+												data-parent="#accordionExample">
+												<div class="card-body">
+													<h5>Automated behaviour-based Malware Analysis and Intelligence tool
+														that is able to:</h5>
+													<p></p>
+													<p> - identify malicious executables like .exe, .dll and provide a
+														malware signature.</p>
+													<p> - collect CTI and provide an intelligence report using online
+														sources.</p>
+													<br>
+													<h5>The report will provide (among others):</h5>
+													<p></p>
+													<p> - Chronological data about the malicious file, i.e. first
+														appearance, increase in time.</p>
+													<p> - Any weaponisation in any APT campaigns or cyberattacks in
+														general.</p>
+													<p> - Public information on cyber attribution.</p>
+													<p> - Related vulnerabilities and information on relevance.</p>
+												</div>
+											</div>
+										</div>
+										<div class="card">
+											<div class="card-header" id="headingTwo">
+												<h5 class="card-title my-2">
+													<a href="#" data-toggle="collapse" data-target="#collapseTwo"
+														aria-expanded="true" aria-controls="collapseOne">
+														Static Analysis
+													</a>
+												</h5>
+											</div>
+											<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+												data-parent="#accordionExample">
+												<div class="card-body">
+													<h5>Static analysis will provide useful metadata and information,
+														including:</h5>
+													<p></p>
+													<p> - entropy calculation of the executable file.</p>
+													<p> - hash calculation (MD5, SHA-1, SHA-256) of the malware.</p>
+													<p> - extraction of textual features of the executable file.</p>
+													<p> - the impfuzzy library, calculate hashes from import API of PE
+														files.</p>
+													<p> - extraction of metadata from Microsoft office documents and pdf
+														files using the libraries pdfinfo, officemeta.</p>
+													<p> - cross-checking of OSINT with extracted binary hashes.</p>
+												</div>
+											</div>
+										</div>
+										<div class="card">
+											<div class="card-header" id="headingThree">
+												<h5 class="card-title my-2">
+													<a href="#" data-toggle="collapse" data-target="#collapseThree"
+														aria-expanded="true" aria-controls="collapseOne">
+														Dynamic Analysis
+													</a>
+												</h5>
+											</div>
+											<div id="collapseThree" class="collapse" aria-labelledby="headingThree"
+												data-parent="#accordionExample">
+												<div class="card-body">
+													<h5>Dynamic analysis will provide useful metadata and information on
+														malware execution and behaviour, including:</h5>
+													<p></p>
+													<p> - Cuckoo sandbox analysis results.</p>
+													<p> - Network monitoring and C&C communication results.</p>
+													<p> - Disk and function-call usage monitoring results.</p>
+													<p> - DLL library injects information.</p>
+													<p> - Memory injection analysis and inspection results.</p>
+													<p> - Packing/obfuscation/encryption information.</p>
+													<p> - Downloaded external malicious files.</p>
+												</div>
+											</div>
+										</div>
+										<div class="card">
+											<div class="card-header" id="headingThree">
+												<h5 class="card-title my-2">
+													<a href="#" data-toggle="collapse" data-target="#collapseFour"
+														aria-expanded="true" aria-controls="collapseFour">
+														CTI Collection
+													</a>
+												</h5>
+											</div>
+											<div id="collapseFour" class="collapse" aria-labelledby="headingFour"
+												data-parent="#accordionExample">
+												<div class="card-body">
+													<h5>Purpose: Based on extracted data (static and dynamic analysis)
+														and identified attack vectors (dynamic analysis) the following
+														malware intelligence can be extracted and reported.</h5>
+													<p></p>
+													<p> - Crosschecked hashes in the <a
+															href="https://www.nist.gov/software-quality-group/national-software-reference-library-nsrl">National
+															Software Reference Library</a> database.</p>
+													<p> - Network monitoring and C&C communication results.</p>
+													<p> - Disk and function-call usage monitoring results.</p>
+													<p> - DLL library injects information.</p>
+													<p> - Memory injection analysis and inspection results.</p>
+													<p> - Packing/obfuscation/encryption information.</p>
+													<p> - Downloaded external malicious files.</p>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+					</div>
+				</div>
+			</main>
+
+			<footer class="footer">
+				<div class="container-fluid">
+					<div class="row text-muted">
+						<div class="col-6 text-left">
+							<p class="mb-0">
+								<a href="index.html" class="text-muted"><strong>MAIT Demo</strong></a> &copy;
+							</p>
+						</div>
+						<div class="col-6 text-right">
+							<ul class="list-inline">
+								<li class="list-inline-item">
+									<a class="text-muted" href="#">Support</a>
+								</li>
+								<li class="list-inline-item">
+									<a class="text-muted" href="#">Help Center</a>
+								</li>
+								<li class="list-inline-item">
+									<a class="text-muted" href="#">Privacy</a>
+								</li>
+								<li class="list-inline-item">
+									<a class="text-muted" href="#">Terms</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</div>
+
+	<script src="js/app.js"></script>
+	<script src="js/footer.js"></script>
+
+
+</body>
+
+</html>

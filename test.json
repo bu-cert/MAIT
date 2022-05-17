@@ -1,0 +1,25 @@
+{
+    "description": "Template",
+    "name": "Custom Malware",
+    "domain": "enterprise-attack",
+    "versions": {
+        "layer": "4.2",
+        "attack": "9",
+        "navigator": "4.2"
+    },
+    "techniques": [],
+    "gradient": {
+        "colors": [
+            "#ffffff",
+            "#66b1ff"
+        ],
+        "minValue": 0,
+        "maxValue": 1
+    },
+    "legendItems": [
+        {
+            "label": "used by custom malware",
+            "color": "#66b1ff"
+        }
+    ]
+}
