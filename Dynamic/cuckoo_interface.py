@@ -8,17 +8,18 @@ class Dynamic:
         config = configparser.ConfigParser()
         config.read('./config.txt')
         self.BASEDIR = config['cuckoo']['BASEDIR']
+        self.BEARER_TOKEN = config['cuckoo']['BEARER_TOKEN']
         self.options = {"options": ["procmemdump=yes", "memory=yes"]}
 
     def post_submit(self,apicall, files):
         REST_URL = self.BASEDIR+apicall
-        HEADERS = {"Authorization": "Bearer 5oJkH42IbX5cK42-eXQSqw"}
+        HEADERS = {"Authorization": self.BEARER_TOKEN}#"Bearer 5oJkH42IbX5cK42-eXQSqw"
         r = requests.post(REST_URL, headers=HEADERS, files=files, data=self.options)
         return r
     def getreq_cuckoo(self,apicall):
 
         REST_URL = self.BASEDIR+apicall
-        HEADERS = {"Authorization": "Bearer 5oJkH42IbX5cK42-eXQSqw"}
+        HEADERS = {"Authorization": self.BEARER_TOKEN}
         r = requests.get(REST_URL, headers = HEADERS, data=self.options)
         return r
 
