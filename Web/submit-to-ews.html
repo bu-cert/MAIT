@@ -8,6 +8,7 @@
 	<meta name="description" content="Responsive Admin &amp; Dashboard Template based on Bootstrap 5">
 	<meta name="author" content="MAIT">
 	<meta name="keywords" content="malware analysis tool, static analysis, dynamic analysis,cti collection">
+	<script src="config/config.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 
 	<link rel="shortcut icon" href="img/icons/icon-48x48.png" />
@@ -134,7 +135,7 @@
 															$(document).ready(function () {
 																$.ajax({
 																	type: 'GET',
-																	url: 'http://bu-mait-engine.ngrok.io/api/v1/files',
+																	url: mait_api_base_url + 'files',
 																	contentType: "application/json",
 																	contentType: false,
 																	processData: false,
@@ -257,16 +258,14 @@
 	<script src="js/app.js"></script>
 	<script src="js/footer.js"></script>
 	<script>
-
 		$(function () {
 			$('#button_submit').click(function () {
 				event.preventDefault();
-
 				var form_data = JSON.stringify($("#ewssubmit").serializeArray());
 
 				$.ajax({
 					type: 'POST',
-					url: 'http://bu-mait-engine.ngrok.io/api/v1/submitews/',
+					url: mait_api_base_url + 'submitews/',
 					data: form_data,
 					contentType: "text/plain",
 					dataType: 'json'

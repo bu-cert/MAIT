@@ -8,6 +8,7 @@
 	<meta name="description" content="Responsive Admin &amp; Dashboard Template based on Bootstrap 5">
 	<meta name="author" content="MAIT">
 	<meta name="keywords" content="malware analysis tool, static analysis, dynamic analysis,cti collection">
+	<script src="config/config.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 
 	<meta name="keywords"
@@ -152,7 +153,7 @@
 								$(document).ready(function () {
 									$.ajax({
 										type: 'GET',
-										url: 'http://bu-mait-engine.ngrok.io/api/v1/files',
+										url: mait_api_base_url +'files',
 										contentType: "application/json",
 										contentType: false,
 										processData: false,
@@ -222,8 +223,7 @@
 	<script src="js/app.js"></script>
 	<script>
 		$(function () {
-
-			$('#runanalysis').click(function () {
+			$('#runanalysis').click(function () { 
 				event.preventDefault();
 				block_to_insert = document.createElement('div');
 				block_to_insert.classList.add('loader');
@@ -231,7 +231,7 @@
 				container_block.appendChild(block_to_insert);
 				var e = document.getElementById('inputState')
 				var value = e.options[e.selectedIndex].value;
-				url = 'http://bu-mait-engine.ngrok.io/api/v1/attacknav/' + value + '/',
+				url = mait_api_base_url + 'attacknav/' + value + '/',
 				url = encodeURIComponent(url);
 
 				var iframe = document.createElement('iframe');

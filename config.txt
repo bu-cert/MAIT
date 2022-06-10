@@ -4,7 +4,8 @@ username = maituser@BUCERT
 password = <SDK Token Here>
 
 [cuckoo]
-BASEDIR = http://localhost:8090/
+BEARER_TOKEN = 
+BASEDIR = 
 
 [AbuseCh]
 APIKEY = 

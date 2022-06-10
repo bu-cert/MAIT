@@ -1,6 +1,6 @@
 import flask
 from Static import analysis 
-from Static import functioncall
+#from Static import functioncall
 from Dynamic import cuckoo_interface
 from CTI import alienvault_interface
 from CTI import virustotal_interface
@@ -121,7 +121,7 @@ def dynamic_get_report(path):
     task_id = d.submit_file(path)
     while d.is_finished(task_id) == False:
     	time.sleep(30)
-    	
+    
     if d.is_finished(task_id):
         report = d.get_report(task_id)
         summary = d.get_summary(report)
