@@ -4,23 +4,23 @@ username = maituser@BUCERT
 password = <SDK Token Here>
 
 [cuckoo]
-BEARER_TOKEN = 
-BASEDIR = 
+BEARER_TOKEN = Bearer 5oJkH42IbX5cK42-eXQSqw
+BASEDIR = https://4c603ca59c32.ngrok.io/
 
 [AbuseCh]
-APIKEY = 
+APIKEY = 2b86022ece5db6d4d836
 URL = https://urlhaus-api.abuse.ch/v1/
 
 [MalwareBazaar]
-APIKEY = 
+APIKEY = 6a7411804a7d8af214e8ccb7dec5f6a0
 URL = https://mb-api.abuse.ch/api/v1
 
 [VirusTotal]
 VIRUSTOTALURL = http://www.virustotal.com/vtapi/v2/
-VIRUSTOTALKEY = 
+VIRUSTOTALKEY = da682638bf063ffb719aa5010f825d12097db37a920fcbb9e24f3dbd47679851
 
 [AlienVault]
-API_KEY = 
+API_KEY = 8545d7922fe549261df55cc5cd50dc6d7f9b4becee15a7eae2277ed5335e4d71
 OTX_SERVER = https://otx.alienvault.com/
 
 [FarsightSecurity]
@@ -32,12 +32,17 @@ API_KEY = demo
 URL = http://api.ip2proxy.com/
 
 [ThreatIntelligencePlatform]
-API_KEY = 
+API_KEY = at_mxx7zDTfx4UX4LkWr8PHinnPpUCy5
 URL = https://api.threatintelligenceplatform.com/v1/
 
 [SecurityTrails]
-API_KEY = 
+API_KEY = xY9moOKIKR6Uqxhu5TvHdn5ZmggP3fLo
 URL = https://api.securitytrails.com/v1/
 
 [GreyNoise]
 URL = https://api.greynoise.io/v3/community/
+
+[MitreAtt&ck]
+attack_layer_version = 4.3
+attack_version = 11.2
+attack_navigator_version = 4.6.4
