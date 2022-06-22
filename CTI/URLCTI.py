@@ -46,7 +46,6 @@ class URL_CTI():
             scan_id = str(url_scan_results[0]["scan_id"]).split("-")[0]
             url_report = json.loads('{"virustotal_url_report":"'+str(url_scan_results[0]["permalink"]).split("u-")[0]+'", "url":"'+self.url+'", "positives":"'+str(url_scan_results[0]["positives"])+'", "redirected_url":"'+str(self.vti.virustotal_v3_query_url(scan_id)[0]["data"]["attributes"]["last_final_url"])+'"}')
         except: 
-            #return "Error occurred when retrieving VirusTotal antivirus score: " + str(url_scan_results)
             return json.loads('{"virustotal_url_report": {"error_occurred": '+json.dumps(url_scan_results)+'}}')
 
         return url_report
