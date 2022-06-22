@@ -116,7 +116,7 @@ class IP_CTI():
     #Gets geolocation information for the extracted IP address (longitude and latitude primarily)
     def get_ip_geolocation(self): 
         try: 
-            response = urllib.request.urlopen("http://ipwhois.app/json/"+self.ip)
+            response = urllib.request.urlopen("https://ipwhois.app/json/"+self.ip)
             ipgeolocation = json.load(response)
             ip_proxy_info = self.get_ip_proxy_info()
 
@@ -132,7 +132,7 @@ class IP_CTI():
         config.read('./config.txt')
         key = config['Ip2proxy']['API_KEY']
         try:
-            response = requests.get('http://api.ip2proxy.com/?ip=' + self.ip + '&key=' + key + '&package=PX10').json()
+            response = requests.get('https://api.ip2proxy.com/?ip=' + self.ip + '&key=' + key + '&package=PX10').json()
         except Exception as error: 
             return json.dumps('{"lastSeen": '+'{0}\n'.format(error)+', "proxyType": "NA", "threat": "NA", "isProxy": "NA"}')
 
