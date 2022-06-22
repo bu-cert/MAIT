@@ -162,8 +162,8 @@ class alienvault_intelligence:
         # Get the file analysis too, if it exists
         has_analysis = self.getValue( result,  ['url_list','url_list', 'result', 'urlworker', 'has_file_analysis'])
         if has_analysis:
-            hash = self.getValue( result,  ['url_list','url_list', 'result', 'urlworker', 'sha256'])
-            file_alerts = self.file(hash)
+            file_hash = self.getValue( result,  ['url_list','url_list', 'result', 'urlworker', 'sha256'])
+            file_alerts = self.file(file_hash)
             if file_alerts:
                 for alert in file_alerts:
                     alerts.append(alert)
@@ -190,8 +190,8 @@ class alienvault_intelligence:
         # Get the file analysis too, if it exists
         has_analysis = self.getValue( result,  ['url_list','url_list', 'result', 'urlworker', 'has_file_analysis'])
         if has_analysis:
-            hash = self.getValue( result,  ['url_list','url_list', 'result', 'urlworker', 'sha256'])
-            file_alerts = self.file(hash)
+            file_hash = self.getValue( result,  ['url_list','url_list', 'result', 'urlworker', 'sha256'])
+            file_alerts = self.file(file_hash)
             if file_alerts:
                 for alert in file_alerts:
                     alerts.append(alert)

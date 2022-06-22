@@ -83,8 +83,8 @@ def url(otx, url):
     # Get the file analysis too, if it exists
     has_analysis = getValue( result,  ['url_list','url_list', 'result', 'urlworker', 'has_file_analysis'])
     if has_analysis:
-        hash = getValue( result,  ['url_list','url_list', 'result', 'urlworker', 'sha256'])
-        file_alerts = file(otx, hash)
+        file_hash = getValue( result,  ['url_list','url_list', 'result', 'urlworker', 'sha256'])
+        file_alerts = file(otx, file_hash)
         if file_alerts:
             for alert in file_alerts:
                 alerts.append(alert)
