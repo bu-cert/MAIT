@@ -184,7 +184,7 @@ class APT_Intelligence:
         for i in pulses:
             if i['attack_ids']:
                 for j in i['attack_ids']:
-                    advlst.append(j['id'], ' - ', j['name'])
+                    advlst.append((j['id'], ' - ', j['name']))
           
         return advlst
 
