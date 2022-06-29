@@ -26,41 +26,6 @@ class Static:
         hash256 = file_hash.hexdigest()
         return hash256
 
-
-
-    def macrodetect(self, url):
-        mc=open(url, 'rb')
-        mcparce=VBA_Parser(mc)
-        if mcparce.detect_vba_macros():
-            print ("VBA Macros found")
-            return 1
-        else:
-            print ("No VBA Macros found")
-            return 0
-            
-    def mine_pdf(self,url):
-        fp = open(url, 'rb')
-        parser = PDFParser(fp)
-        doc = PDFDocument(parser)
-        return doc.info  # The "Info" metadata
-    def mine_doc(self,url):
-        metadata = {}
-        doc = docx.Document(url)
-        prop = doc.core_properties
-        metadata["author"] = prop.author
-        metadata["category"] = prop.category
-        metadata["comments"] = prop.comments
-        metadata["content_status"] = prop.content_status
-        metadata["created"] = prop.created
-        metadata["identifier"] = prop.identifier
-        metadata["keywords"] = prop.keywords
-        metadata["language"] = prop.language
-        metadata["modified"] = prop.modified
-        metadata["subject"] = prop.subject
-        metadata["title"] = prop.title
-        metadata["version"] = prop.version
-        return metadata
-
     def get_all_calls(self,url):
         print("retrieving ALL calls from the malware "+url)
         r2p = r2pipe.open(url)
@@ -94,7 +59,6 @@ class Static:
         headers = r2p.cmd("aa;ij")
         headers = json.loads(headers)
         return headers
-
 
     def get_libraries(self,url):
         print("retrieving libraries from the malware "+url)
@@ -144,3 +108,37 @@ class Static:
     def get_impfuzzy(self,url):
         hsh = pyimpfuzzy.get_impfuzzy(url)
         return hsh
+
+    def macrodetect(self, url):
+        mc=open(url, 'rb')
+        mcparce=VBA_Parser(mc)
+        if mcparce.detect_vba_macros():
+            print ("VBA Macros found")
+            return 1
+        else:
+            print ("No VBA Macros found")
+            return 0
+            
+    def mine_pdf(self,url):
+        fp = open(url, 'rb')
+        parser = PDFParser(fp)
+        doc = PDFDocument(parser)
+        return doc.info  # The "Info" metadata
+
+    def mine_doc(self,url):
+        metadata = {}
+        doc = docx.Document(url)
+        prop = doc.core_properties
+        metadata["author"] = prop.author
+        metadata["category"] = prop.category
+        metadata["comments"] = prop.comments
+        metadata["content_status"] = prop.content_status
+        metadata["created"] = prop.created
+        metadata["identifier"] = prop.identifier
+        metadata["keywords"] = prop.keywords
+        metadata["language"] = prop.language
+        metadata["modified"] = prop.modified
+        metadata["subject"] = prop.subject
+        metadata["title"] = prop.title
+        metadata["version"] = prop.version
+        return metadata

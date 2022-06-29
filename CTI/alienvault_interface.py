@@ -64,19 +64,6 @@ class alienvault_intelligence:
             neoGraph.create(rootrel)
             prevnode = node1
 
-    def get_hash_indicators(self, hash256):
-        results, alerts = self.query_hash( hash256)
-        pulses = results['general']['pulse_info']['pulses']
-
-        savelst = []
-        for i in pulses:
-            pulse_detail = self.otx.get_pulse_details(i['id'])
-            indicators = self.otx.get_pulse_indicators(i['id'])
-            indicators = pulse_detail['indicators']
-            for k in indicators:
-                savelst.append((k['indicator'], k['type'] ,k['created']))
-        return savelst
-
     def get_hash_pulses(self, hash256):
         results, alerts = self.query_hash(hash256)
         pulses = results['general']['pulse_info']['pulses']
@@ -96,32 +83,6 @@ class alienvault_intelligence:
         results, alerts = self.query_ip(mal_ip, type)
         pulses = results['pulse_info']['pulses']
         return pulses
-
-        
-    def get_url_indicators(self, url):
-        results, alerts = self.query_url(url)
-        pulses = results['general']['pulse_info']['pulses']
-
-        savelst = []
-        for i in pulses:
-            pulse_detail = self.otx.get_pulse_details(i['id'])
-            indicators = self.otx.get_pulse_indicators(i['id'])
-            indicators = pulse_detail['indicators']
-            for k in indicators:
-                savelst.append((k['indicator'], k['type'] ,k['created']))
-        return savelst
-
-    def get_ip_indicators(self, IP):
-        results, alerts = self.query_ip(IP)
-        pulses = results['pulse_info']['pulses']
-        savelst = []
-        for i in pulses:
-            pulse_detail = self.otx.get_pulse_details(i['id'])
-            indicators = self.otx.get_pulse_indicators(i['id'])
-            indicators = pulse_detail['indicators']
-            for k in indicators:
-                savelst.append((k['indicator'], k['type'] ,k['created']))
-        return savelst
 
     def getValue(self, results, keys):
         if type(keys) is list and len(keys) > 0:
@@ -164,7 +125,6 @@ class alienvault_intelligence:
                         alerts.append('In pulse: ' + pulse['name'])
         return (result, alerts)
 
-
     def ip(self, ip, type):
         alerts = []
         if type == 'IPv4': 
@@ -202,8 +162,8 @@ class alienvault_intelligence:
         # Get the file analysis too, if it exists
         has_analysis = self.getValue( result,  ['url_list','url_list', 'result', 'urlworker', 'has_file_analysis'])
         if has_analysis:
-            hash = self.getValue( result,  ['url_list','url_list', 'result', 'urlworker', 'sha256'])
-            file_alerts = self.file(hash)
+            file_hash = self.getValue( result,  ['url_list','url_list', 'result', 'urlworker', 'sha256'])
+            file_alerts = self.file(file_hash)
             if file_alerts:
                 for alert in file_alerts:
                     alerts.append(alert)
@@ -230,8 +190,8 @@ class alienvault_intelligence:
         # Get the file analysis too, if it exists
         has_analysis = self.getValue( result,  ['url_list','url_list', 'result', 'urlworker', 'has_file_analysis'])
         if has_analysis:
-            hash = self.getValue( result,  ['url_list','url_list', 'result', 'urlworker', 'sha256'])
-            file_alerts = self.file(hash)
+            file_hash = self.getValue( result,  ['url_list','url_list', 'result', 'urlworker', 'sha256'])
+            file_alerts = self.file(file_hash)
             if file_alerts:
                 for alert in file_alerts:
                     alerts.append(alert)
