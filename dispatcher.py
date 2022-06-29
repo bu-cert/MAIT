@@ -186,7 +186,7 @@ def cti_get_mitre_mapping(path):
     path = UPLOAD_DIRECTORY+ '/'+path
     urlhash = s.hash_256(path)
     #urlhash = 'c874dd4a471fb101f8d019efbcf5b849d4575c36b479aea3d0ab54ad8ad6d164'
-    f = open('test.json')
+    f = open('attack_template.json')
     template = json.loads(f.read())
     f.close()
 
