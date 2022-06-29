@@ -57,11 +57,11 @@ class abusech_intelligence:
         return self.request_get(url, data)
 
     def urlhaus_urlscan(self,url):
-        url = self.url_ach+'url/'
+        endpoint_url = self.url_ach+'url/'
         data = urllib.parse.urlencode({
             'url' : url,
             })
-        return self.request_get(url, data)
+        return self.request_get(endpoint_url, data)
 
     def urlhaus_scan(self,hash):
         url = self.url_ach+'payload/'

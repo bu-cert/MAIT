@@ -4,6 +4,7 @@ from . import abusech_interface
 from OTXv2 import OTXv2
 import configparser
 import py2neo
+import json
 
 
 class Create_Nav:
@@ -29,3 +30,18 @@ class Create_Nav:
                 for j in i['attack_ids']:
                     advlst.append(  {'score':1, 'techniqueID':j['id'], 'showSubtechniques': True}  )
         return advlst
+
+    def get_cuckoo_ttps(self, ttps): 
+        ttplst = []
+        ttp_ids = []
+        ttps = ttps['ttps']
+
+        #Need to get a list of the TTP IDs using a separate for loop, as each list item can have multiple TTP IDs
+        for ttp in range(0, len(ttps)): 
+            ttp_ids = list(ttps[ttp].keys()) + ttp_ids
+        print(ttp_ids)
+
+        for i in range(0, len(ttp_ids)): #FIXME: Does not highlight subtechniques 
+            ttplst.append( {'score':1, 'techniqueID':ttp_ids[i], 'showSubtechniques': True} )
+
+        return ttplst

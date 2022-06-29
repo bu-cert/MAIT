@@ -1,6 +1,7 @@
+from distutils.log import debug
 import flask
 from Static import analysis 
-from Static import functioncall
+#from Static import functioncall
 from Dynamic import cuckoo_interface
 from CTI import alienvault_interface
 from CTI import virustotal_interface
@@ -25,6 +26,7 @@ import requests
 from requests.auth import HTTPBasicAuth
 import pprint
 from flask_cors import CORS
+from waitress import serve
 UPLOAD_DIRECTORY = "./Uploads"
 
 DISPOSAL_DIRECTORY = "./Disposal"
@@ -121,7 +123,7 @@ def dynamic_get_report(path):
     task_id = d.submit_file(path)
     while d.is_finished(task_id) == False:
     	time.sleep(30)
-    	
+    
     if d.is_finished(task_id):
         report = d.get_report(task_id)
         summary = d.get_summary(report)
@@ -133,6 +135,11 @@ def dynamic_get_report(path):
         network = d.get_network(report)
         dropped = d.get_dropped_files(report)
         signatures = d.get_signatures(report)
+
+        ttp_report_file = open('ttps.json', 'w') #TODO: Test this - for adding dynamic cuckoo ttps to alienvault ttps for attack mapping 
+        ttp_report_file.write(json.dumps({'ttps': ttps})) #
+        ttp_report_file.close() #
+
         #response = jsonify(summary = summary, apicalls = apicalls, ttps = ttps, network = network, drop=dropped, signatures=signatures, dynamic_iocs=dynamic_iocs)
         response = jsonify(summary = summary, apicalls = apicalls, ttps = ttps, network = network, drop=dropped, signatures=signatures)
         response.headers.add('Access-Control-Allow-Origin', '*')
@@ -182,7 +189,20 @@ def cti_get_mitre_mapping(path):
     f = open('test.json')
     template = json.loads(f.read())
     f.close()
-    lst = nav.AlienVault_TTPs(urlhash)
+
+    #TODO: Check this works - gets versions from config file 
+    config = configparser.ConfigParser()
+    config.read('./config.txt')
+    template['versions']['layer'] = config['MitreAtt&ck']['attack_layer_version']
+    template['versions']['attack'] = config['MitreAtt&ck']['attack_version']
+    template['versions']['navigator'] = config['MitreAtt&ck']['attack_navigator_version']
+
+    cuckoo_ttps_file = open('ttps.json') #TODO: Need to check ttp format in comparison to AlienVault first, maybe do json.loads(file.read)? 
+    cuckoo_ttps = nav.get_cuckoo_ttps(json.loads(cuckoo_ttps_file.read()))
+    cuckoo_ttps_file.close() #    
+
+    lst = nav.AlienVault_TTPs(urlhash) + cuckoo_ttps
+
     #retrieve and update
     for i in lst:
         print(i)
@@ -390,3 +410,9 @@ def submit_to_ews():
 
 if __name__ == "__main__":
     app.run(debug=True, port=8000)
+    #TODO: Waitress provides production WSGI server with error messages but has no web traffic logging - can be setup with https://docs.pylonsproject.org/projects/waitress/en/latest/logging.html
+    #host = '127.0.0.1'#'localhost'
+    #port = 8000
+    #print("* MAIT WSGI Server started")
+    #print("* Served by " + host + " on port " + str(port))
+    #serve(app, host=host, port=port)
