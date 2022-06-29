@@ -3,9 +3,9 @@
     "name": "Custom Malware",
     "domain": "enterprise-attack",
     "versions": {
-        "layer": "4.2",
-        "attack": "9",
-        "navigator": "4.2"
+        "layer": "",
+        "attack": "",
+        "navigator": ""
     },
     "techniques": [],
     "gradient": {
