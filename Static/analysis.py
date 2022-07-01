@@ -1,4 +1,5 @@
 
+from time import time
 import r2pipe
 import json
 import pefile
@@ -13,7 +14,12 @@ from oletools.olevba import VBA_Parser, TYPE_OLE, TYPE_OpenXML, TYPE_Word2003_XM
 from Static import Static_Extraction
 
 
-class Static:
+class Static: 
+    def __init__(self, url): 
+        self.r2p = r2pipe.open(url)
+        self.r2p.cmd("e bin.hashlimit=1000M")
+        #pass
+
     def hash_256(self, url):
         BLOCK_SIZE = 65536 # The size of each read from the file
 
@@ -54,9 +60,14 @@ class Static:
         return apicalls
 
     def get_headers(self,url):
-        print("retrieving headers from the malware "+url)
-        r2p = r2pipe.open(url)
+        print("retrieving headers from the malware "+url) #Maybe print url variable to check file path? 
+        r2p = r2pipe.open(url) #Maybe try and find cfg.hashlimit - https://r2wiki.readthedocs.io/en/latest/options/e/values-that-e-can-modify/cfg/
+        r2p.cmd("e bin.hashlimit=41943040")#8000M")
+        print(r2p.cmd("e bin.hashlimit"))
         headers = r2p.cmd("aa;ij")
+
+        print('Headers: ' + str(headers)) #Delete when done, for testing
+
         headers = json.loads(headers)
         return headers
 
@@ -67,18 +78,18 @@ class Static:
         return libs
 
     def get_network_ops(self,url):
-        print("retrieving strings from the malware "+url)
+        print("retrieving network ops from the malware "+url)
 
         sa = Static_Extraction.StaticAnalysis(url)
         ipv4s = sa.get_ipv4_addresses()
         ipv6s = sa.get_ipv6_addresses()
         domains = sa.get_domains()
         urls = sa.get_urls()
-        #r2p = r2pipe.open(url)
+        r2p = r2pipe.open(url)
         #network = r2p.cmd("aa;izz")
         #urls = re.findall("http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+", network)
         network = ipv4s + ipv6s + domains + urls
-
+        print(r2p.cmd("e bin.hashlimit"))
         #r2p = r2pipe.open(url)
         #network = r2p.cmd("aa;izz")
         #ips = re.findall(r"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b", network)
@@ -88,9 +99,10 @@ class Static:
         return network
 
     def get_strings(self,url):
-        print("retrieving headers from the malware "+url)
+        print("retrieving strings from the malware "+url)
         r2p = r2pipe.open(url)
         strings = r2p.cmd("aaa;izj")
+        print('Strings' + str(strings))
         return strings
 
     def get_entropy(self,url):

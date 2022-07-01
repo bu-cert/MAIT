@@ -102,15 +102,15 @@ def get_file(path):
 def static_get_analysis(path):
     """Return the headers from static analysis"""
     path = UPLOAD_DIRECTORY+ '/'+path
-    s = analysis.Static()
+    s = analysis.Static(path)
     summary = s.get_headers(path)
     urlhash = s.hash_256(path)
-    imphash = s.get_imphash(path)
+    imphash = s.get_imphash(path) #DOS Header magic not found.
     impfuzzy = s.get_impfuzzy(path)
     lib =  s.get_libraries(path)
     net =  s.get_network_ops(path)
     sec =  s.get_entropy(path)
-    strings =  s.get_strings(path)
+    strings =  {"core":"wibble"}#s.get_strings(path)
     response = jsonify(summary = summary, sha256 = urlhash, imphash = imphash, impfuzzy = impfuzzy, libraries = lib, network = net, sections = sec, strings =strings)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
@@ -186,7 +186,7 @@ def cti_get_mitre_mapping(path):
     path = UPLOAD_DIRECTORY+ '/'+path
     urlhash = s.hash_256(path)
     #urlhash = 'c874dd4a471fb101f8d019efbcf5b849d4575c36b479aea3d0ab54ad8ad6d164'
-    f = open('attack_template.json')
+    f = open('test.json')
     template = json.loads(f.read())
     f.close()
 
