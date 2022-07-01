@@ -105,12 +105,12 @@ def static_get_analysis(path):
     s = analysis.Static(path)
     summary = s.get_headers(path)
     urlhash = s.hash_256(path)
-    imphash = s.get_imphash(path) #DOS Header magic not found.
+    imphash = s.get_imphash(path) #FIXME: DOS Header magic not found for testssd/test.txt, might need error checking? 
     impfuzzy = s.get_impfuzzy(path)
     lib =  s.get_libraries(path)
     net =  s.get_network_ops(path)
     sec =  s.get_entropy(path)
-    strings =  {"core":"wibble"}#s.get_strings(path)#FIXME:Remove when r2p changes tested
+    strings =  s.get_strings(path)
     response = jsonify(summary = summary, sha256 = urlhash, imphash = imphash, impfuzzy = impfuzzy, libraries = lib, network = net, sections = sec, strings =strings)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
