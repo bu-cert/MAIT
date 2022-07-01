@@ -17,7 +17,7 @@ from Static import Static_Extraction
 class Static: 
     def __init__(self, url): 
         self.r2p = r2pipe.open(url)
-        self.r2p.cmd("e bin.hashlimit=1000M")
+        self.r2p.cmd("e bin.hashlimit=1000M") #TODO: Add self.r2p to each function, then make sure Static_Extraction.py has r2p hashlimit set to 1000M
         #pass
 
     def hash_256(self, url):

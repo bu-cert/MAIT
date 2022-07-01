@@ -6,8 +6,9 @@ class StaticAnalysis:
         self.file_path = file_path
 
     def get_strings(self): 
-        r = r2pipe.open(self.file_path)
-        strings = r.cmd('aa;izz')
+        r2p = r2pipe.open(self.file_path)
+        r2p.cmd("e bin.hashlimit=1000M")
+        strings = r2p.cmd('aa;izz')
 
         return strings 
 

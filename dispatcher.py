@@ -110,7 +110,7 @@ def static_get_analysis(path):
     lib =  s.get_libraries(path)
     net =  s.get_network_ops(path)
     sec =  s.get_entropy(path)
-    strings =  {"core":"wibble"}#s.get_strings(path)
+    strings =  {"core":"wibble"}#s.get_strings(path)#FIXME:Remove when r2p changes tested
     response = jsonify(summary = summary, sha256 = urlhash, imphash = imphash, impfuzzy = impfuzzy, libraries = lib, network = net, sections = sec, strings =strings)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
