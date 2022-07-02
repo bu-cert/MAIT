@@ -1,4 +1,3 @@
-
 from time import time
 import r2pipe
 import json
@@ -89,20 +88,31 @@ class Static:
         strings = self.r2p.cmd("aaa;izj")
         return strings
 
-    def get_entropy(self,url):
-        binary = pefile.PE(url)
-        entropy_dict = []
-        for section in binary.sections:
-            entropy_dict.append([str(section.Name).replace('\\x00', '').replace('b\'',''), hex(section.VirtualAddress),hex(section.Misc_VirtualSize), section.SizeOfRawData, section.get_entropy() ])
+    def get_entropy(self,url): 
+        try: 
+            binary = pefile.PE(url)
+            entropy_dict = []
+            for section in binary.sections:
+                entropy_dict.append([str(section.Name).replace('\\x00', '').replace('b\'',''), hex(section.VirtualAddress),hex(section.Misc_VirtualSize), section.SizeOfRawData, section.get_entropy() ])
+        except pefile.PEFormatError: 
+            entropy_dict = 'No PE DOS Header found' 
         return entropy_dict
 
-    def get_imphash(self,url):
-        file=pefile.PE(url)
-        imphash = file.get_imphash()
+    def get_imphash(self,url): 
+        try: 
+            file=pefile.PE(url)
+            imphash = file.get_imphash()
+        except pefile.PEFormatError: 
+            print('Warning: No PE DOS Header found for the selected file')
+            imphash = 'No PE DOS Header found' 
+
         return imphash
 
-    def get_impfuzzy(self,url):
-        hsh = pyimpfuzzy.get_impfuzzy(url)
+    def get_impfuzzy(self,url): 
+        try: 
+            hsh = pyimpfuzzy.get_impfuzzy(url)
+        except pefile.PEFormatError: 
+            hsh = 'No PE DOS Header found' 
         return hsh
 
     def macrodetect(self, url):

@@ -105,7 +105,7 @@ def static_get_analysis(path):
     s = analysis.Static(path)
     summary = s.get_headers(path)
     urlhash = s.hash_256(path)
-    imphash = s.get_imphash(path) #FIXME: DOS Header magic not found for testssd/test.txt, might need error checking? 
+    imphash = s.get_imphash(path)
     impfuzzy = s.get_impfuzzy(path)
     lib =  s.get_libraries(path)
     net =  s.get_network_ops(path)
