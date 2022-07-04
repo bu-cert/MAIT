@@ -1,0 +1,1 @@
+const mait_api_base_url = '<MAIT-API-SERVER-URL';
