@@ -1,0 +1,44 @@
+[EWS]
+EWSDIR = http://bu-ews.ngrok.io/
+username = maituser@BUCERT
+password = <SDK Token Here>
+
+[cuckoo]
+BEARER_TOKEN = Bearer <token>
+BASEDIR = <cuckoo-server-URL>
+
+[AbuseCh]
+APIKEY = <key>
+URL = https://urlhaus-api.abuse.ch/v1/
+
+[MalwareBazaar]
+APIKEY = <key>
+URL = https://mb-api.abuse.ch/api/v1
+
+[VirusTotal]
+VIRUSTOTALKEY = <key>
+VIRUSTOTALURL = http://www.virustotal.com/vtapi/v2/
+
+[AlienVault]
+API_KEY = <key>
+OTX_SERVER = https://otx.alienvault.com/
+
+[Ip2proxy]
+API_KEY = demo
+URL = http://api.ip2proxy.com/
+
+[ThreatIntelligencePlatform]
+API_KEY = <key>
+URL = https://api.threatintelligenceplatform.com/v1/
+
+[SecurityTrails]
+API_KEY = <key>
+URL = https://api.securitytrails.com/v1/
+
+[GreyNoise]
+URL = https://api.greynoise.io/v3/community/
+
+[MitreAtt&ck]
+attack_layer_version = 4.3
+attack_version = 11.2
+attack_navigator_version = 4.6.4
