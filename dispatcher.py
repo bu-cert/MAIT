@@ -186,18 +186,17 @@ def cti_get_mitre_mapping(path):
     path = UPLOAD_DIRECTORY+ '/'+path
     urlhash = s.hash_256(path)
     #urlhash = 'c874dd4a471fb101f8d019efbcf5b849d4575c36b479aea3d0ab54ad8ad6d164'
-    f = open('test.json')
+    f = open('attack_template.json')
     template = json.loads(f.read())
     f.close()
 
-    #TODO: Check this works - gets versions from config file 
     config = configparser.ConfigParser()
     config.read('./config.txt')
     template['versions']['layer'] = config['MitreAtt&ck']['attack_layer_version']
     template['versions']['attack'] = config['MitreAtt&ck']['attack_version']
     template['versions']['navigator'] = config['MitreAtt&ck']['attack_navigator_version']
 
-    cuckoo_ttps_file = open('ttps.json') #TODO: Need to check ttp format in comparison to AlienVault first, maybe do json.loads(file.read)? 
+    cuckoo_ttps_file = open('ttps.json')
     cuckoo_ttps = nav.get_cuckoo_ttps(json.loads(cuckoo_ttps_file.read()))
     cuckoo_ttps_file.close() #    
 
