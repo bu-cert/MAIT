@@ -196,10 +196,11 @@ def cti_get_mitre_mapping(path):
     template['versions']['attack'] = config['MitreAtt&ck']['attack_version']
     template['versions']['navigator'] = config['MitreAtt&ck']['attack_navigator_version']
 
+
     cuckoo_ttps_file = open('ttps.json') 
     cuckoo_ttps = nav.get_cuckoo_ttps(json.loads(cuckoo_ttps_file.read()))
     cuckoo_ttps_file.close() #    
-
+    
     lst = nav.AlienVault_TTPs(urlhash) + cuckoo_ttps
 
     #retrieve and update
