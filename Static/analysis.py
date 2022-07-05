@@ -1,4 +1,4 @@
-
+from time import time
 import r2pipe
 import json
 import pefile
@@ -13,7 +13,11 @@ from oletools.olevba import VBA_Parser, TYPE_OLE, TYPE_OpenXML, TYPE_Word2003_XM
 from Static import Static_Extraction
 
 
-class Static:
+class Static: 
+    def __init__(self, url): 
+        self.r2p = r2pipe.open(url)
+        self.r2p.cmd("e bin.hashlimit=10000M")
+
     def hash_256(self, url):
         BLOCK_SIZE = 65536 # The size of each read from the file
 
@@ -28,15 +32,13 @@ class Static:
 
     def get_all_calls(self,url):
         print("retrieving ALL calls from the malware "+url)
-        r2p = r2pipe.open(url)
-        functions = r2p.cmd("aa;aflj")
+        functions = self.r2p.cmd("aa;aflj")
         funcs = json.loads(functions)
         return funcs
 
     def get_api_calls(self,url):
         print("retrieving API calls from the malware "+url)
-        r2p = r2pipe.open(url)
-        apis = r2p.cmd("aa;aaa;axtj @@ sym.*")
+        apis = self.r2p.cmd("aa;aaa;axtj @@ sym.*")
         apilines = apis.split('\n')
         data = []
         first = 0
@@ -55,58 +57,62 @@ class Static:
 
     def get_headers(self,url):
         print("retrieving headers from the malware "+url)
-        r2p = r2pipe.open(url)
-        headers = r2p.cmd("aa;ij")
+        headers = self.r2p.cmd("aa;ij")
         headers = json.loads(headers)
         return headers
 
     def get_libraries(self,url):
         print("retrieving libraries from the malware "+url)
-        r2p = r2pipe.open(url)
-        libs = r2p.cmd("aa;ilj")
+        libs = self.r2p.cmd("aa;ilj")
         return libs
 
     def get_network_ops(self,url):
-        print("retrieving strings from the malware "+url)
+        print("retrieving network ops from the malware "+url)
 
         sa = Static_Extraction.StaticAnalysis(url)
         ipv4s = sa.get_ipv4_addresses()
         ipv6s = sa.get_ipv6_addresses()
         domains = sa.get_domains()
         urls = sa.get_urls()
-        #r2p = r2pipe.open(url)
         #network = r2p.cmd("aa;izz")
         #urls = re.findall("http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+", network)
         network = ipv4s + ipv6s + domains + urls
-
-        #r2p = r2pipe.open(url)
         #network = r2p.cmd("aa;izz")
         #ips = re.findall(r"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b", network)
         #urls = re.findall("http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+", network)
         #network = ips + urls
-
         return network
 
     def get_strings(self,url):
-        print("retrieving headers from the malware "+url)
-        r2p = r2pipe.open(url)
-        strings = r2p.cmd("aaa;izj")
+        print("retrieving strings from the malware "+url)
+        strings = self.r2p.cmd("aaa;izj")
         return strings
 
-    def get_entropy(self,url):
-        binary = pefile.PE(url)
-        entropy_dict = []
-        for section in binary.sections:
-            entropy_dict.append([str(section.Name).replace('\\x00', '').replace('b\'',''), hex(section.VirtualAddress),hex(section.Misc_VirtualSize), section.SizeOfRawData, section.get_entropy() ])
+    def get_entropy(self,url): 
+        try: 
+            binary = pefile.PE(url)
+            entropy_dict = []
+            for section in binary.sections:
+                entropy_dict.append([str(section.Name).replace('\\x00', '').replace('b\'',''), hex(section.VirtualAddress),hex(section.Misc_VirtualSize), section.SizeOfRawData, section.get_entropy() ])
+        except pefile.PEFormatError: 
+            entropy_dict = 'No PE DOS Header found' 
         return entropy_dict
 
-    def get_imphash(self,url):
-        file=pefile.PE(url)
-        imphash = file.get_imphash()
+    def get_imphash(self,url): 
+        try: 
+            file=pefile.PE(url)
+            imphash = file.get_imphash()
+        except pefile.PEFormatError: 
+            print('Warning: No PE DOS Header found for the selected file')
+            imphash = 'No PE DOS Header found' 
+
         return imphash
 
-    def get_impfuzzy(self,url):
-        hsh = pyimpfuzzy.get_impfuzzy(url)
+    def get_impfuzzy(self,url): 
+        try: 
+            hsh = pyimpfuzzy.get_impfuzzy(url)
+        except pefile.PEFormatError: 
+            hsh = 'No PE DOS Header found' 
         return hsh
 
     def macrodetect(self, url):

@@ -1,5 +1,5 @@
 from CTI import virustotal_interface, alienvault_interface, greynoise_interface
-import urllib.request, json, configparser, requests, dnsdb
+import urllib.request, json, configparser, requests
 
 #A class which provides cyber threat intelligence for a given IP address that has been extracted from a malware sample
 class IP_CTI(): 
@@ -137,24 +137,6 @@ class IP_CTI():
             return json.dumps('{"lastSeen": '+'{0}\n'.format(error)+', "proxyType": "NA", "threat": "NA", "isProxy": "NA"}')
 
         return response
-
-    #Translates the extracted IP address to a domain name (Reverse IP / IP Passive DNS lookup)
-    def get_reverse_ip_info(self): 
-        config = configparser.ConfigParser()
-        config.read('./config.txt')
-        key = config['FarsightSecurity']['API_KEY']
-        try: 
-            request = dnsdb.DNSDBAPI(api_key=key).inverse_lookup(_type='ip', value=self.ip)
-            reverse_ip_info = dnsdb.dnsdb_results_to_json(request)
-
-            if reverse_ip_info == '[]': 
-                return json.loads('{"passive_dns_information": {"error_occurred": "No Passive DNS information found"}}')
-
-            reverse_ip_info = json.loads('{"reverse_ip_information":'+ reverse_ip_info +'}')
-        except:
-            return json.loads('{"reverse_ip_information": {"error_occurred": '+json.dumps(reverse_ip_info)+'}}')
-
-        return reverse_ip_info
 
     #Get the IPv4 or IPv6 indicators from the related AlienVault pulses of the given IPv4 or IPv6 address
     def get_related_ip_indicators(self): 

@@ -1,7 +1,7 @@
 from re import sub
 import ssl
 from CTI import virustotal_interface, threat_intel_platform_interface, alienvault_interface, securitytrails_interface, crt_sh_interface
-import tldextract, configparser, dnsdb, json, ast, time
+import tldextract, configparser, json, ast, time
 
 #A class which provides cyber threat intelligence for a given URL that has been extracted from a malware sample
 class URL_CTI(): 
@@ -87,25 +87,6 @@ class URL_CTI():
             return json.loads('{"whois_information": {"error_occurred": '+json.dumps(whois_info)+'}}')
 
         return whois_info
-
-    #Gets PassiveDNS information about the extracted domain, such as name server and MX records
-    def get_domain_passivedns(self): 
-        config = configparser.ConfigParser()
-        config.read('./config.txt')
-        key = config['FarsightSecurity']['API_KEY']
-        try: 
-            request = dnsdb.DNSDBAPI(api_key=key).forward_lookup(owner_name=self.extract_domain())
-            passivedns_info = dnsdb.dnsdb_results_to_json(request)
-
-            if passivedns_info == '[]': 
-                return json.loads('{"passive_dns_information": {"error_occurred": "No Passive DNS information found"}}')
-
-            passivedns_info = '{"passive_dns_information":'+ passivedns_info +'}'
-            passivedns_info = json.loads(passivedns_info)
-        except:
-            return json.loads('{"passive_dns_information": {"error_occurred": '+json.dumps(passivedns_info)+'}}')
-
-        return passivedns_info
     
     #Gets DNS records such as A and MX records for the extracted domain
     def get_dns_info(self): 

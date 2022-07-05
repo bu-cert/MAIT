@@ -102,7 +102,7 @@ def get_file(path):
 def static_get_analysis(path):
     """Return the headers from static analysis"""
     path = UPLOAD_DIRECTORY+ '/'+path
-    s = analysis.Static()
+    s = analysis.Static(path)
     summary = s.get_headers(path)
     urlhash = s.hash_256(path)
     imphash = s.get_imphash(path)
@@ -196,10 +196,11 @@ def cti_get_mitre_mapping(path):
     template['versions']['attack'] = config['MitreAtt&ck']['attack_version']
     template['versions']['navigator'] = config['MitreAtt&ck']['attack_navigator_version']
 
-    cuckoo_ttps_file = open('ttps.json')
+
+    cuckoo_ttps_file = open('ttps.json') 
     cuckoo_ttps = nav.get_cuckoo_ttps(json.loads(cuckoo_ttps_file.read()))
     cuckoo_ttps_file.close() #    
-
+    
     lst = nav.AlienVault_TTPs(urlhash) + cuckoo_ttps
 
     #retrieve and update
@@ -240,7 +241,6 @@ def cti_url_report(path):
     related_malicious_urls = ucti.get_related_malicious_urls()
     vt_historical_ssl = ucti.get_vt_historical_ssl_certs()
     crtsh_historical_ssl = ucti.get_crtsh_historical_ssl_certs()
-    #passivedns_info = ucti.get_domain_passivedns()
     dns_info = ucti.get_dns_info()
     ssl_config_info = ucti.get_ssl_config_info()
     alerts = ucti.get_alienvault_alerts()
@@ -269,7 +269,6 @@ def cti_ip_report(path):
     whois = ipcti.get_ip_whois()
     ssl_certs = ipcti.get_historical_ssl_certs()
     geolocation = ipcti.get_ip_geolocation()
-    #reverse_ip = ipcti.get_reverse_ip_info()
     greynoise_cti = ipcti.get_grey_noise_info()
     related_pulse = ipcti.get_related_ip_pulse_info()
     related_indicators = ipcti.get_related_ip_indicators()#json.loads('{"wibble": {"na": "na"}}')
