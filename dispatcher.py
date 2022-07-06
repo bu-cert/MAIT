@@ -27,6 +27,7 @@ from requests.auth import HTTPBasicAuth
 import pprint
 from flask_cors import CORS
 from waitress import serve
+
 UPLOAD_DIRECTORY = "./Uploads"
 
 DISPOSAL_DIRECTORY = "./Disposal"
@@ -51,10 +52,10 @@ def list_files():
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
-
-@app.route('/api/v1/disposal', methods=['GET'])
+#This is called in line 182 of quarantine.html, def appears to list quarantined files, check how quarantine works?
+@app.route('/api/v1/disposal', methods=['GET'])#/files
 def list_qfiles():
-    """Endpoint to list files on the server."""
+    """Endpoint for listing quarantined files in the disposal directory on the server."""
     files = []
     for filename in os.listdir(DISPOSAL_DIRECTORY):
         path = os.path.join(DISPOSAL_DIRECTORY, filename)
@@ -67,10 +68,11 @@ def list_qfiles():
 @app.route('/api/v1/quarantine/<path:path>/', methods=['GET'])
 def quarantine_file(path):
     path = UPLOAD_DIRECTORY+ '/'+path
-    s = analysis.Static()
+    s = analysis.Static(path)
     urlhash = s.hash_256(path)
     quarantine.inject_new_section(path, urlhash)
     quarantine.encrypt_file('infected_by_MAIT'.encode("utf8"), in_filename='./Disposal/'+urlhash+'.quarantine', out_filename='./Disposal/'+urlhash+'.enc.quarantine')
+    #Find way to close file in quarantine
     os.remove(path)
     os.remove('./Disposal/'+urlhash+'.quarantine')     
     response = jsonify(success="{ok}")
@@ -103,14 +105,14 @@ def static_get_analysis(path):
     """Return the headers from static analysis"""
     path = UPLOAD_DIRECTORY+ '/'+path
     s = analysis.Static(path)
-    summary = s.get_headers(path)
-    urlhash = s.hash_256(path)
-    imphash = s.get_imphash(path)
-    impfuzzy = s.get_impfuzzy(path)
-    lib =  s.get_libraries(path)
-    net =  s.get_network_ops(path)
-    sec =  s.get_entropy(path)
-    strings =  s.get_strings(path)
+    summary = s.get_headers()
+    urlhash = s.hash_256()
+    imphash = s.get_imphash()
+    impfuzzy = s.get_impfuzzy()
+    lib =  s.get_libraries()
+    net =  s.get_network_ops()
+    sec =  s.get_entropy()
+    strings =  s.get_strings()
     response = jsonify(summary = summary, sha256 = urlhash, imphash = imphash, impfuzzy = impfuzzy, libraries = lib, network = net, sections = sec, strings =strings)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
@@ -148,13 +150,12 @@ def dynamic_get_report(path):
 #APT campaign connection 
 @app.route('/api/v1/cti/<path:path>/analysis/', methods=['GET'])
 def cti_get_report(path):
-    s = analysis.Static()
+    path = UPLOAD_DIRECTORY+ '/'+path
+    s = analysis.Static(path)
     apt_intel = apt_intelligence.APT_Intelligence()
     chrono_intel = chrono_intelligence.Chrono_Intelligence()
 
-
-    path = UPLOAD_DIRECTORY+ '/'+path
-    urlhash = s.hash_256(path)
+    urlhash = s.hash_256()
     
     attrb = apt_intel.find_apt_name(urlhash)
     ttps = apt_intel.AlienVault_TTPs(urlhash)
@@ -182,9 +183,9 @@ def cti_get_hashreport(path):
 @app.route('/api/v1/attacknav/<path:path>/', methods=['GET'])
 def cti_get_mitre_mapping(path):
     nav = create_nav.Create_Nav()
-    s = analysis.Static()
     path = UPLOAD_DIRECTORY+ '/'+path
-    urlhash = s.hash_256(path)
+    s = analysis.Static(path)
+    urlhash = s.hash_256()
     #urlhash = 'c874dd4a471fb101f8d019efbcf5b849d4575c36b479aea3d0ab54ad8ad6d164'
     f = open('attack_template.json')
     template = json.loads(f.read())
@@ -313,15 +314,15 @@ def submit_to_ews():
 
     path = UPLOAD_DIRECTORY+ '/'+path
     
-    s = analysis.Static()
-    summary = s.get_headers(path)
-    urlhash = s.hash_256(path)
-    imphash = s.get_imphash(path)
-    impfuzzy = s.get_impfuzzy(path)
-    lib =  s.get_libraries(path)
-    net =  s.get_network_ops(path)
-    sec =  s.get_entropy(path)
-    strings =  s.get_strings(path)
+    s = analysis.Static(path)
+    summary = s.get_headers()
+    urlhash = s.hash_256()
+    imphash = s.get_imphash()
+    impfuzzy = s.get_impfuzzy()
+    lib =  s.get_libraries()
+    net =  s.get_network_ops()
+    sec =  s.get_entropy()
+    strings =  s.get_strings()
     static = jsonify(summary = summary, sha256 = urlhash, imphash = imphash, impfuzzy = impfuzzy, libraries = lib, network = net, sections = sec, strings =strings)
     to_save = pprint.pformat(static.json)
     f = open('static.json', 'w')
