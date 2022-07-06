@@ -24,6 +24,7 @@ from flask import Flask, request, abort, jsonify, send_from_directory
 import pymongo
 import requests
 from requests.auth import HTTPBasicAuth
+from flask_httpauth import HTTPTokenAuth
 import pprint
 from flask_cors import CORS
 from waitress import serve
@@ -38,6 +39,18 @@ if not os.path.exists(UPLOAD_DIRECTORY):
 
 app = flask.Flask(__name__)
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+
+auth = HTTPTokenAuth(scheme='Bearer')
+
+tokens = {
+    "secret-token-1": "john",
+    "secret-token-2": "susan"
+}
+
+@auth.verify_token
+def verify_token(token):
+    if token in tokens:
+        return tokens[token]
 
 app.config["DEBUG"] = True
 @app.route('/api/v1/files', methods=['GET'])
