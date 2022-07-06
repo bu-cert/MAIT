@@ -8,6 +8,7 @@
 	<meta name="description" content="Responsive Admin &amp; Dashboard Template based on Bootstrap 5">
 	<meta name="author" content="MAIT">
 	<meta name="keywords" content="malware analysis tool, static analysis, dynamic analysis,cti collection">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 
 	<link rel="shortcut icon" href="img/icons/icon-48x48.png" />
 
@@ -111,6 +112,15 @@
 						<div class="col-auto d-none d-sm-block">
 							<h3><strong>MAIT</strong> </h3>
 						</div>
+						<form>
+							<div class="card-header w3-padding-large">
+								<div id="getdataform"> </div>
+								<label class="form-label">In order to use the web UI for MAIT, please enter in your MAIT API Key: </label>
+								<input type="text" class="form-control" placeholder="API Key" id="textinput">
+								<br>
+								<button type="submit" id="getApiKey" class="btn btn-primary">Submit</button>
+							</div>
+						</form>
 							<div class="row">
 								<div class="col-12 col-xl-12">
 									<div class="accordion" id="accordionExample">
@@ -262,6 +272,16 @@
 	</div>
 
 	<script src="js/app.js"></script>
+	<script>
+		$(function () {
+			$('#getApiKey').click(function () {
+				var element = document.getElementById('textinput');
+				var api_token = element.value;
+				console.log(api_token);
+				sessionStorage.setItem("api_token", api_token);
+			});
+		});
+	</script>
 	<script src="js/footer.js"></script>
 
 
