@@ -158,6 +158,9 @@
 										contentType: false,
 										processData: false,
 										dataType: 'json',
+										headers: {
+											"Authorization": "Bearer " + sessionStorage.getItem("api_token")
+										},
 										success: function (result) {
 											var x = document.getElementById("inputState");
 
@@ -233,7 +236,7 @@
 				var value = e.options[e.selectedIndex].value;
 				url = mait_api_base_url + 'attacknav/' + value + '/',
 				url = encodeURIComponent(url);
-
+				//FIXME: No authorisation headers added here so doesn't work
 				var iframe = document.createElement('iframe');
 				iframe.src = "https://mitre-attack.github.io/attack-navigator/#layerURL="+url; 
 				iframe.width="2000";
