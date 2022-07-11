@@ -147,6 +147,9 @@
 										contentType: false,
 										processData: false,
 										dataType: 'json',
+										headers: {
+											"Authorization": "Bearer " + sessionStorage.getItem("api_token")
+										},
 										success: function (result) {
 											var x = document.getElementById("inputState");
 
@@ -298,7 +301,10 @@
 					url: mait_api_base_url + 'static/' + value + '/analysis/',
 					contentType: false,
 					processData: false,
-					dataType: 'json'
+					dataType: 'json', 
+					headers: {
+						"Authorization": "Bearer " + sessionStorage.getItem("api_token")
+					}
 				}).done(function (data, textStatus, jqXHR) {
 					$( ".loader" ).remove();
 					var ul = document.getElementById("strings");

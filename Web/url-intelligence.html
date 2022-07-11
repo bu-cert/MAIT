@@ -308,7 +308,10 @@
 					url: mait_api_base_url + 'urlcti/' + value + '/analysis/',
 					contentType: false,
 					processData: false,
-					dataType: 'json'
+					dataType: 'json', 
+					headers: {
+						"Authorization": "Bearer " + sessionStorage.getItem("api_token")
+					}
 				}).done(function (data, textStatus, jqXHR) {
 					$(".loader").remove();
 

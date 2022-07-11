@@ -1,3 +1,7 @@
+[MAIT]
+username = <username>
+password = <password>
+
 [EWS]
 EWSDIR = http://bu-ews.ngrok.io/
 username = maituser@BUCERT
@@ -5,7 +9,7 @@ password = <SDK Token Here>
 
 [cuckoo]
 BEARER_TOKEN = Bearer <token>
-BASEDIR = <cuckoo-server-URL>
+BASEDIR = <cuckoo-server-url>
 
 [AbuseCh]
 APIKEY = <key>

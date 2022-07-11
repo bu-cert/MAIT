@@ -24,9 +24,12 @@ from flask import Flask, request, abort, jsonify, send_from_directory
 import pymongo
 import requests
 from requests.auth import HTTPBasicAuth
+from flask_httpauth import HTTPTokenAuth
 import pprint
 from flask_cors import CORS
 from waitress import serve
+
+CONFIG_DIRECTORY = "./config.txt"
 
 UPLOAD_DIRECTORY = "./Uploads"
 
@@ -39,8 +42,27 @@ if not os.path.exists(UPLOAD_DIRECTORY):
 app = flask.Flask(__name__)
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
+auth = HTTPTokenAuth(scheme='Bearer')
+
+config = configparser.ConfigParser()
+config.read(CONFIG_DIRECTORY)
+username = config['MAIT']['username']
+password = config['MAIT']['password']
+tokens = {
+    password: username
+}
+
+#curl "http://127.0.0.1:8000/api/v1/files" -H "Authorization: Bearer <password>"
+
 app.config["DEBUG"] = True
+
+@auth.verify_token
+def verify_token(token):
+    if token in tokens:
+        return tokens[token]
+
 @app.route('/api/v1/files', methods=['GET'])
+@auth.login_required
 def list_files():
     """Endpoint to list files on the server."""
     files = []
@@ -54,6 +76,7 @@ def list_files():
 
 #This is called in line 182 of quarantine.html, def appears to list quarantined files, check how quarantine works?
 @app.route('/api/v1/disposal', methods=['GET'])#/files
+@auth.login_required
 def list_qfiles():
     """Endpoint for listing quarantined files in the disposal directory on the server."""
     files = []
@@ -66,6 +89,7 @@ def list_qfiles():
     return response
 
 @app.route('/api/v1/quarantine/<path:path>/', methods=['GET'])
+@auth.login_required
 def quarantine_file(path):
     path = UPLOAD_DIRECTORY+ '/'+path
     s = analysis.Static(path)
@@ -81,6 +105,7 @@ def quarantine_file(path):
 
 
 @app.route("/api/v1/fileupload/", methods=["POST"])
+@auth.login_required
 def post_file():
     """Upload a file."""
     print(str(request.files))
@@ -101,6 +126,7 @@ def get_file(path):
 
 
 @app.route('/api/v1/static/<path:path>/analysis/', methods=['GET'])
+@auth.login_required
 def static_get_analysis(path):
     """Return the headers from static analysis"""
     path = UPLOAD_DIRECTORY+ '/'+path
@@ -118,6 +144,7 @@ def static_get_analysis(path):
     return response
 
 @app.route('/api/v1/dynamic/<path:path>/analysis/', methods=['GET'])
+@auth.login_required
 def dynamic_get_report(path):
     d = cuckoo_interface.Dynamic()
     da = Dynamic_Extraction.DynamicAnalysis()###
@@ -149,6 +176,7 @@ def dynamic_get_report(path):
 
 #APT campaign connection 
 @app.route('/api/v1/cti/<path:path>/analysis/', methods=['GET'])
+@auth.login_required
 def cti_get_report(path):
     path = UPLOAD_DIRECTORY+ '/'+path
     s = analysis.Static(path)
@@ -168,6 +196,7 @@ def cti_get_report(path):
     
     
 @app.route('/api/v1/cti/<path:path>/hashanalysis/', methods=['GET'])
+@auth.login_required
 def cti_get_hashreport(path):
 	apt_intel = apt_intelligence.APT_Intelligence()
 	chrono_intel = chrono_intelligence.Chrono_Intelligence()
@@ -181,6 +210,7 @@ def cti_get_hashreport(path):
 	return response
 
 @app.route('/api/v1/attacknav/<path:path>/', methods=['GET'])
+@auth.login_required
 def cti_get_mitre_mapping(path):
     nav = create_nav.Create_Nav()
     path = UPLOAD_DIRECTORY+ '/'+path
@@ -192,7 +222,7 @@ def cti_get_mitre_mapping(path):
     f.close()
 
     config = configparser.ConfigParser()
-    config.read('./config.txt')
+    config.read(CONFIG_DIRECTORY)
     template['versions']['layer'] = config['MitreAtt&ck']['attack_layer_version']
     template['versions']['attack'] = config['MitreAtt&ck']['attack_version']
     template['versions']['navigator'] = config['MitreAtt&ck']['attack_navigator_version']
@@ -214,6 +244,7 @@ def cti_get_mitre_mapping(path):
 
 
 @app.route('/api/v1/urlipintelligence/<path:path>/ioc/', methods=['GET'])
+@auth.login_required
 def cti_get_url_ip_iocs(path):
     path = UPLOAD_DIRECTORY+ '/'+path
     sa = Static_Extraction.StaticAnalysis(file_path = path)
@@ -225,6 +256,7 @@ def cti_get_url_ip_iocs(path):
 
 #URL campaign connection 
 @app.route('/api/v1/urlcti/<path:path>/analysis/', methods=['GET'])
+@auth.login_required
 def cti_url_report(path):
     ucti = URLCTI.URL_CTI(path)
     try: 
@@ -260,6 +292,7 @@ def cti_url_report(path):
 #IP campaign connection 
 
 @app.route('/api/v1/ipcti/<path:path>/analysis/', methods=['GET'])
+@auth.login_required
 def cti_ip_report(path):
     ipcti = IPCTI.IP_CTI(path)
     ipscore = ipcti.get_virustotal_score()
@@ -281,10 +314,11 @@ def cti_ip_report(path):
     return response
 
 @app.route('/api/v1/submitews/', methods=['POST'])
+@auth.login_required
 def submit_to_ews():
 
     config = configparser.ConfigParser()
-    config.read('./config.txt')
+    config.read(CONFIG_DIRECTORY)
     ewsdir = config['EWS']['EWSDIR']
     user = config['EWS']['username']
     password = config['EWS']['password']

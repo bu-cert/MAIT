@@ -183,7 +183,10 @@ $(function() {
             data: form_data,
             contentType: false,
             processData: false,
-            dataType: 'json'
+            dataType: 'json', 
+			headers: {
+				"Authorization": "Bearer " + sessionStorage.getItem("api_token")
+			}
         }).done(function(data, textStatus, jqXHR){
             console.log(data);
             console.log(textStatus);
