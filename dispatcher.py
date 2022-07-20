@@ -1,5 +1,6 @@
-from distutils.log import debug
+
 import flask
+from distutils.log import debug
 from Static import analysis 
 #from Static import functioncall
 from Dynamic import cuckoo_interface
@@ -93,12 +94,13 @@ def list_qfiles():
 def quarantine_file(path):
     path = UPLOAD_DIRECTORY+ '/'+path
     s = analysis.Static(path)
-    urlhash = s.hash_256(path)
-    quarantine.inject_new_section(path, urlhash)
-    quarantine.encrypt_file('infected_by_MAIT'.encode("utf8"), in_filename='./Disposal/'+urlhash+'.quarantine', out_filename='./Disposal/'+urlhash+'.enc.quarantine')
+    urlhash = s.hash_256()
+    #quarantine.inject_new_section(path, urlhash)
+    #quarantine.encrypt_file('infected_by_MAIT'.encode("utf8"), in_filename='./Disposal/'+urlhash+'.quarantine', out_filename='./Disposal/'+urlhash+'.enc.quarantine')
+    quarantine.encrypt_file('infected_by_MAIT'.encode("utf8"), in_filename=path, out_filename='./Disposal/'+urlhash+'.enc.quarantine')
     #Find way to close file in quarantine
     os.remove(path)
-    os.remove('./Disposal/'+urlhash+'.quarantine')     
+    #os.remove('./Disposal/'+urlhash+'.quarantine')     
     response = jsonify(success="{ok}")
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
@@ -210,7 +212,6 @@ def cti_get_hashreport(path):
 	return response
 
 @app.route('/api/v1/attacknav/<path:path>/', methods=['GET'])
-@auth.login_required
 def cti_get_mitre_mapping(path):
     nav = create_nav.Create_Nav()
     path = UPLOAD_DIRECTORY+ '/'+path

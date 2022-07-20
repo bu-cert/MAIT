@@ -1,1 +1,1 @@
-const mait_api_base_url = '<MAIT-API-SERVER-URL>';
+const mait_api_base_url = 'http://127.0.0.1:8000/api/v1/';
