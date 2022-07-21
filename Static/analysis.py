@@ -58,8 +58,16 @@ class Static:
 
     def get_headers(self):
         print("retrieving headers from the malware "+self.url)
-        headers = self.r2p.cmd("aa;ij")
-        headers = json.loads(headers)
+
+        for i in range(1, 4): 
+            headers = self.r2p.cmd("aa;ij")
+            try: 
+                headers = json.loads(headers)
+            except Exception: 
+                print("Header extraction error has occurred" + i + "time(s)")
+            else: 
+                break
+            
         return headers
 
     def get_libraries(self):
